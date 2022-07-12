@@ -1,5 +1,4 @@
 .container {
-  margin-top: 96px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,14 +16,15 @@
 
 .mintInfoContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   width: 100%;
-  padding: 0 24px;
-  min-height: 720px;
+  padding: 24px;
+  /* min-height: 720px; */
   max-width: 95vw;
   gap: 2%;
+
   border: 1px solid var(--border-color);
   border-radius: 16px;
 }
@@ -35,6 +35,7 @@
   align-items: center;
   width: 45%;
   height: 100%;
+  font-size: 2rem;
 }
 
 .description {
@@ -93,6 +94,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-top: 15px;
 }
 
 .mintAreaLeft {
@@ -145,7 +147,6 @@
   font-size: 2rem;
   background-color: transparent;
   border: 1px solid grey;
-  color: #fff;
 }
 
 .quantityControlButton:disabled {

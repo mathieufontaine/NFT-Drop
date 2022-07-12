@@ -16,7 +16,7 @@ import styles from "../styles/Theme.module.css";
 
 // Put Your Edition Drop Contract address from the dashboard here
 const myEditionDropContractAddress =
-  "0x11232C2cd1757C3e4f78dcda318Bdfc6Bc5873A3";
+  "0x691604DA1774cc673692dFB05Be9F68e9cD7a4B9";
 
 const Home: NextPage = () => {
   const editionDrop = useEditionDrop(myEditionDropContractAddress);
@@ -82,14 +82,13 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.infoSide}>
+        {/* Title of your NFT Collection */}
+        <h1>{contractMetadata?.name}</h1>
+        {/* Description of your NFT Collection */}
+        {/* <p className={styles.description}>{contractMetadata?.description}</p> */}
+      </div>
       <div className={styles.mintInfoContainer}>
-        <div className={styles.infoSide}>
-          {/* Title of your NFT Collection */}
-          <h1>{contractMetadata?.name}</h1>
-          {/* Description of your NFT Collection */}
-          <p className={styles.description}>{contractMetadata?.description}</p>
-        </div>
-
         <div className={styles.imageSide}>
           {/* Image Preview of NFTs */}
           <ThirdwebNftMedia
@@ -162,13 +161,6 @@ const Home: NextPage = () => {
           )}
         </div>
       </div>
-      {/* Powered by thirdweb */}{" "}
-      <img
-        src={`/logo.png`}
-        alt="Thirdweb Logo"
-        width={135}
-        className={styles.buttonGapTop}
-      />
     </div>
   );
 };
