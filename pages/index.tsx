@@ -6,20 +6,27 @@ import {
   useEditionDrop,
   useNFT,
   ThirdwebNftMedia,
+  useNetworkMismatch,
+  useAddress,
+  useContract,
+  useMetamask,
 } from "@thirdweb-dev/react";
-import { useNetworkMismatch } from "@thirdweb-dev/react";
-import { useAddress, useMetamask } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
 import type { NextPage } from "next";
 import { useState } from "react";
 import styles from "../styles/Theme.module.css";
+import { ConnectAccount } from "../components/ConnectAccount";
+import ThemeToggler from "../components/ThemeToggler";
+import MyNFTs from "../components/MyNFTs";
 
 // Put Your Edition Drop Contract address from the dashboard here
 const myEditionDropContractAddress =
-  "0x691604DA1774cc673692dFB05Be9F68e9cD7a4B9";
+  "0x691604da1774cc673692dfb05be9f68e9cd7a4b9";
 
 const Home: NextPage = () => {
   const editionDrop = useEditionDrop(myEditionDropContractAddress);
+  const { contract } = useContract(myEditionDropContractAddress);
+
   const address = useAddress();
   const connectWithMetamask = useMetamask();
   const isOnWrongNetwork = useNetworkMismatch();
@@ -41,11 +48,6 @@ const Home: NextPage = () => {
     editionDrop,
     BigNumber.from(0)
   );
-
-  console.log({
-    contractMetadata,
-    activeClaimCondition,
-  });
 
   // Loading state while we fetch the metadata
   if (!editionDrop || !contractMetadata) {
@@ -82,42 +84,42 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.infoSide}>
+      <div className="flex px-8 py-4 justify-between items-center bg-gray-500 ">
         {/* Title of your NFT Collection */}
-        <h1>{contractMetadata?.name}</h1>
+        <h1 className="text-white">{contractMetadata?.name}</h1>
+        <div className="m-2 flex gap-2 justify-around items-center ">
+          <ConnectAccount />
+          <ThemeToggler />
+        </div>
         {/* Description of your NFT Collection */}
         {/* <p className={styles.description}>{contractMetadata?.description}</p> */}
       </div>
-      <div className={styles.mintInfoContainer}>
-        <div className={styles.imageSide}>
-          {/* Image Preview of NFTs */}
-          <ThirdwebNftMedia
-            // @ts-ignore
-            metadata={nftMetadata?.metadata}
-            className={styles.image}
-          />
-
-          {/* Amount claimed so far */}
-          <div className={styles.mintCompletionArea}>
-            <div className={styles.mintAreaLeft}>
-              <p>Total Minted</p>
-            </div>
-            <div className={styles.mintAreaRight}>
-              {activeClaimCondition ? (
-                <p>
-                  {/* Claimed supply so far */}
-                  <b>{activeClaimCondition.currentMintSupply}</b>
-                  {" / "}
-                  {activeClaimCondition.maxQuantity}
-                </p>
-              ) : (
-                // Show loading state if we're still loading the supply
-                <p>Loading...</p>
-              )}
-            </div>
+      <div className="flex items-center flex-col justify-around p-8 w-full dark:bg-black dark:text-white">
+        <div className="p-4 text-center border border-black rounded ">
+          <div className="w-[300px]">
+            <ThirdwebNftMedia
+              // @ts-ignore
+              metadata={nftMetadata?.metadata}
+              className="w-full"
+            />
+          </div>
+          <h3 className="my-6 font-bold">{nftMetadata?.metadata.name}</h3>
+          <p>{nftMetadata?.metadata.description}</p>
+        </div>
+        <div>
+          <div className="my-8 flex items-center justify-around">
+            <p>Total Minted</p>
+            {activeClaimCondition ? (
+              <p>
+                <b>{activeClaimCondition.currentMintSupply}</b>
+                {" / "}
+                {activeClaimCondition.maxQuantity}
+              </p>
+            ) : (
+              <p>Loading...</p>
+            )}
           </div>
 
-          {/* Show claim button or connect wallet button */}
           {address ? (
             <>
               <p>Quantity</p>
@@ -129,9 +131,7 @@ const Home: NextPage = () => {
                 >
                   -
                 </button>
-
                 <h4>{quantity}</h4>
-
                 <button
                   className={`${styles.quantityControlButton}`}
                   onClick={() => setQuantity(quantity + 1)}
@@ -145,7 +145,6 @@ const Home: NextPage = () => {
                   +
                 </button>
               </div>
-
               <button
                 className={`${styles.mainButton} ${styles.spacerTop} ${styles.spacerBottom}`}
                 onClick={mint}
@@ -160,6 +159,11 @@ const Home: NextPage = () => {
             </button>
           )}
         </div>
+      </div>
+      <div className="mt-8">
+        {address && editionDrop && (
+          <MyNFTs contract={contract} address={address} />
+        )}
       </div>
     </div>
   );

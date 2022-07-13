@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Change the values in here to match your branding */
 :root {
   /* Background color of the page */
@@ -25,19 +29,21 @@
 
 /* Default design values of the entire document */
 
-body {
-  background: var(--background-color);
-  font-family: var(--font);
-  color: var(--text-color);
-
-  display: flex;
-  margin: 0;
-  text-align: center;
+html {
+  font-size: 14px;
 }
 
-/* Box sizing rules */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+h1 {
+  font-size: 3rem;
+  padding-bottom: 20px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  padding-bottom: 20px;
+}
+
+h3 {
+  font-size: 2rem;
+  padding-bottom: 10px;
 }
